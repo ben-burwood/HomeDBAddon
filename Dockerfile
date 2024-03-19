@@ -2,7 +2,7 @@ ARG BUILD_FROM
 FROM $BUILD_FROM
 
 
-# Pull the NetworkMapper REpository
+# Pull the HomeDB Repository
 RUN \
     curl -sSLf -o /usr/bin/tempio \
     "https://github.com"

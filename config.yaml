@@ -1,7 +1,7 @@
-name: "NetworkMapper"
-description: "NetworkMapper Home Assistant Add-on"
+name: "HomeDB"
+description: "HomeDB Home Assistant Add-on"
 version: "1.0.0"
-slug: "network_mapper"
+slug: "home_db"
 init: false
 arch:
   - aarch64

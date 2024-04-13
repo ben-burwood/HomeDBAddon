@@ -1,34 +1,29 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
+# Install Python/PIp and Git into the Container
+RUN apk add --no-cache python3 py3-pip git
 
-# Pull the HomeDB Repository
-RUN \
-    curl -sSLf -o /usr/bin/tempio \
-        "https://github.com/benbur98/HomeDB"
+# Clone the HomeDB Repository into the Container
+RUN git clone --depth 1 https://github.com/benbur98/HomeDB /app
 
-# Install Python3 into the Container
-RUN \
-    apk add --no-cache \
-        python3
+# Set the Working Directory to the HomeDB Repository and Copy the Repository into the Container App Directory
+WORKDIR /app
+COPY . /app/
 
-# Set the working directory in the container
-WORKDIR /data
+# Python Environment
+RUN python3 -m venv venv
+# Run from inside the Environment
+# Install Packages specified in requirements.txt
+RUN source ./venv/bin/activate  && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt
 
-# Copy the current directory contents into the container at /data
-COPY . /data/
-
-
-# Install any needed packages specified in requirements.txt
-RUN pip install --upgrade pip && pip install -r requirements.txt
-
-
-# Expose Port 8000 for the Django Server
-EXPOSE 8000
-
+# Expose Port 8099 for the Django Server
+EXPOSE 8099
 
 # Copy data for add-on
 COPY run.sh /
 RUN chmod a+x /run.sh
 
-CMD [ "/run.sh" ]
+ENTRYPOINT [ "/run.sh" ]

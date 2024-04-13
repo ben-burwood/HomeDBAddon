@@ -10,4 +10,4 @@ python manage.py migrate
 # python manage.py collectstatic --noinput
 
 # Start the Django Server
-python manage.py runserver
+python manage.py runserver 8099

@@ -1,7 +1,8 @@
-name: "HomeDB"
-description: "HomeDB Home Assistant Add-on"
+name: HomeDB
+description: HomeDB Home Assistant Add-on
+slug: home_db
+url: https://github.com/benbur98/HomeDB
 version: "1.0.0"
-slug: "home_db"
 init: false
 arch:
   - aarch64

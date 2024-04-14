@@ -13,7 +13,3 @@ arch:
   - armhf
   - armv7
   - i386
-ports:
-  8099/tcp: null
-ports_description:
-  8099/tcp: Frontend UI Port

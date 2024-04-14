@@ -19,9 +19,6 @@ RUN source ./venv/bin/activate  && \
     pip install --upgrade pip && \
     pip install -r requirements.txt
 
-# Expose Port 8099 for the Django Server
-EXPOSE 8099
-
 # Copy data for add-on
 COPY run.sh /
 RUN chmod a+x /run.sh

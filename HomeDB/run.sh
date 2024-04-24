@@ -1,8 +1,6 @@
 # Activate Python Environment
 source ./venv/bin/activate
 
-cd HomeDB
-
 # Apply Database Migrations
 python manage.py migrate
 

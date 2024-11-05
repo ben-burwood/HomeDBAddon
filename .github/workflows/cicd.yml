@@ -1,0 +1,57 @@
+name: Update
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Install yq
+        run: |
+          sudo apt-get update
+          sudo snap install yq
+
+      - name: Get Latest Version of HomeDB
+        id: get_latest_version
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const latestRelease = await github.rest.repos.getLatestRelease({
+              owner: 'ben-burwood',
+              repo: 'HomeDB'
+            });
+            core.setOutput('version', latestRelease.data.tag_name);
+            core.setOutput('html_url', latestRelease.data.html_url);
+
+      - name: Set Latest Version in Environment
+        run: |
+          echo "LATEST_VERSION=${{ steps.get_latest_version.outputs.version }}" >> $GITHUB_ENV
+          echo "RELEASE_URL=${{ steps.get_latest_version.outputs.html_url }}" >> $GITHUB_ENV
+
+      - name: Update config.yaml with Latest Version
+        run: |
+          yq e -i '.version = ${{ env.LATEST_VERSION }}' HomeDB/config.yaml
+
+      - name: Update Changelog
+        run: |
+          echo "## Version ${{ env.LATEST_VERSION }}" >> HomeDB/CHANGELOG.md
+          echo "Updated HomeDB to Version [${{ env.LATEST_VERSION }}] (${{ env.RELEASE_URL }})" >> HomeDB/CHANGELOG.md
+          echo "" >> HomeDB/CHANGELOG.md
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.email ${{ secrets.GIT_EMAIL }}
+          git config --global user.name ${{ secrets.GIT_USERNAME }}
+
+          git add HomeDB/config.yaml HomeDB/CHANGELOG.md
+          git commit -m "Version Update : ${{ env.LATEST_VERSION }}"
+          git push

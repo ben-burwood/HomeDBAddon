@@ -2,7 +2,7 @@ name: HomeDB
 description: HomeDB - A Database for the Home
 slug: home_db
 url: https://github.com/ben-burwood/HomeDB
-version: 0.0
+version: 1.0
 startup: application
 boot: auto
 ingress: true

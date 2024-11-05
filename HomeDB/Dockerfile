@@ -25,6 +25,7 @@ RUN chmod a+x /run.sh
 
 # Set Environment Variable for Database Persistent Storage Volume Path
 ENV DEBUG=False
+ENV ALLOWED_HOSTS=172.30.32.2
 ENV STORAGE_PATH=../../data/
 
 ENTRYPOINT [ "/run.sh" ]

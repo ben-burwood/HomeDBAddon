@@ -39,7 +39,7 @@ jobs:
 
       - name: Update config.yaml with Latest Version
         run: |
-          yq e -i '.version = ${{ env.LATEST_VERSION }}' HomeDB/config.yaml
+          yq e -i '.version = strenv(LATEST_VERSION)' HomeDB/config.yaml
 
       - name: Update Changelog
         run: |
